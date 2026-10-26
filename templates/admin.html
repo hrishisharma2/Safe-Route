@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Admin · SafeRoute{% endblock %}
+{% block content %}
+<header class="page-head">
+  <h1>Road settings</h1>
+  <p>Set the travel time and safety score of each road. Users see your changes the next time they plan a route.</p>
+</header>
+<div class="main admin">
+  <section class="panel">
+    <div class="toolbar">
+      <h2>Roads</h2>
+      <div><span class="msg" id="msg" role="status"></span> <button class="btn" id="reset">Reset demo map</button></div>
+    </div>
+    <div class="roads-wrap">
+      <table class="roads">
+        <thead><tr><th>Road</th><th>Time (min)</th><th>Safety (1–10)</th><th>Last changed</th><th></th></tr></thead>
+        <tbody id="roads"></tbody>
+      </table>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="maphead"><h2>Map</h2><span class="hint">Click a road to edit it.</span></div>
+    <div id="map" class="leaflet-map" role="region" aria-label="Map of Mumbai"></div>
+    {% include "_legend.html" %}
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="{{ url_for('static', filename='map.js') }}"></script>
+<script src="{{ url_for('static', filename='admin.js') }}"></script>
+{% endblock %}

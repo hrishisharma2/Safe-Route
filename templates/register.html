@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Create account · SafeRoute{% endblock %}
+{% block content %}
+<form class="panel auth" method="post">
+  <h1>Create account</h1>
+  <div class="field"><label for="username">Username</label>
+    <input id="username" name="username" required maxlength="30" autofocus autocomplete="username"></div>
+  <div class="field"><label for="password">Password (at least 6 characters)</label>
+    <input id="password" name="password" type="password" required minlength="6" autocomplete="new-password"></div>
+  <button class="btn primary" type="submit">Create account</button>
+  <p class="note">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+</form>
+{% endblock %}

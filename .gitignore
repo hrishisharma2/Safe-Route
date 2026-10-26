@@ -1,0 +1,10 @@
+# Never upload these.
+# instance/ holds the database (with password hashes) and the secret key.
+.venv/
+instance/
+__pycache__/
+*.pyc
+.DS_Store
+# Local backup copies, not part of the app
+backup_*/
+*.backup-*.db

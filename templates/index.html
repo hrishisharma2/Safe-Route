@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main">
+  <div class="rail">
+    <section class="panel">
+      <h2>Trip</h2>
+      <div class="pair">
+        <div class="field"><label for="from">From</label><select id="from"></select></div>
+        <button class="swap" id="swap" title="Swap start and destination" aria-label="Swap start and destination">⇄</button>
+        <div class="field"><label for="to">To</label><select id="to"></select></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Preference</h2>
+      <div class="seg" role="group" aria-label="Preference">
+        <button data-p="fast">Fastest</button><button data-p="bal">Balanced</button>
+        <button data-p="safe">Safest</button><button data-p="custom">Custom</button>
+      </div>
+      <div class="slider">
+        <label for="w">Speed vs safety: <span id="wLabel"></span></label>
+        <input type="range" id="w" min="0" max="100" step="5">
+        <div class="slider-row"><span>Only safety</span><span>Only speed</span></div>
+      </div>
+    </section>
+
+    <section class="panel"><h2>Recommended route</h2><div id="rec"></div></section>
+
+    <section class="panel">
+      <h2>Compare</h2>
+      <table class="cmp">
+        <thead><tr><th>Route</th><th>Time</th><th>Avg safety</th><th>Worst</th></tr></thead>
+        <tbody id="cmp"></tbody>
+      </table>
+      <p class="note" id="insight"></p>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="maphead"><h2>Mumbai</h2><span class="hint" id="hint"></span></div>
+    <div id="map" class="leaflet-map" role="region" aria-label="Map of Mumbai"></div>
+    {% include "_legend.html" %}
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="{{ url_for('static', filename='map.js') }}"></script>
+<script src="{{ url_for('static', filename='user.js') }}"></script>
+{% endblock %}
