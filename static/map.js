@@ -59,8 +59,8 @@ const SafeMap = (() => {
         // While a route is shown, fade every other road so the route pops.
         L.polyline(r.shape, {
           color: selected ? cssColor("var(--ink)") : cssColor(safetyVar(r.safety)),
-          weight: selected ? 7 : active ? 6 : hasRoute ? 3 : 4,
-          opacity: selected || active ? 1 : hasRoute ? 0.25 : 0.9,
+          weight: selected ? 7 : active ? 6 : hasRoute ? 3.5 : 4,
+          opacity: selected || active ? 1 : hasRoute ? 0.55 : 0.9,
         })
           .bindTooltip(`<b>${esc(r.name)}</b><br>${esc(name(r.from_id))} – ${esc(name(r.to_id))}<br>${r.km} km · ${r.time} min · safety ${r.safety}/10`, { sticky: true })
           .on("click", () => onRoad && onRoad(r.id))
