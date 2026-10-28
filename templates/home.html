@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}DISHA · Safer routes across Mumbai{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Route planning for Mumbai</p>
+    <h1>Get there fast, or get there safe. You choose the balance.</h1>
+    <p class="lede">Most map apps only look at travel time. DISHA also scores every road for safety,
+      so you can pick the fastest route, the safest one, or anything in between.</p>
+    <div class="cta">
+      {% if g.user %}
+        <a class="btn primary" href="{{ url_for('index') }}">Plan a route</a>
+        {% if g.user.role == 'admin' %}<a class="btn" href="{{ url_for('admin') }}">Open admin</a>{% endif %}
+      {% else %}
+        <a class="btn primary" href="{{ url_for('register') }}">Create a free account</a>
+        <a class="btn" href="{{ url_for('login') }}">Log in</a>
+      {% endif %}
+    </div>
+    <div class="stats hero-stats">
+      <div class="stat"><span>Places</span><strong>{{ n_places }}</strong></div>
+      <div class="stat"><span>Roads scored</span><strong>{{ n_roads }}</strong></div>
+      <div class="stat"><span>Route options</span><strong>4</strong></div>
+    </div>
+  </div>
+
+  {# Illustration: three routes between the same two points #}
+  <div class="panel hero-art" aria-hidden="true">
+    <svg viewBox="0 0 400 300" role="img">
+      <path class="r-road" d="M40 250 L120 180 L200 200 L280 110 L360 50"/>
+      <path class="r-road" d="M40 250 L90 120 L210 80 L360 50"/>
+      <path class="r-road" d="M40 250 L180 270 L300 210 L360 50"/>
+      <path class="r-line" style="--c: var(--fast)" d="M40 250 L90 120 L210 80 L360 50"/>
+      <path class="r-line" style="--c: var(--bal)" d="M40 250 L120 180 L200 200 L280 110 L360 50"/>
+      <path class="r-line" style="--c: var(--safe)" d="M40 250 L180 270 L300 210 L360 50"/>
+      <g class="r-node"><circle cx="90" cy="120" r="5"/><circle cx="210" cy="80" r="5"/><circle cx="120" cy="180" r="5"/>
+        <circle cx="200" cy="200" r="5"/><circle cx="280" cy="110" r="5"/><circle cx="180" cy="270" r="5"/><circle cx="300" cy="210" r="5"/></g>
+      <circle class="r-end" cx="40" cy="250" r="10"/><text x="40" y="254" class="r-end-t">A</text>
+      <circle class="r-end" cx="360" cy="50" r="10"/><text x="360" y="54" class="r-end-t">B</text>
+    </svg>
+    <div class="legend">
+      <span><span class="dot" style="background: var(--fast)"></span>Fastest</span>
+      <span><span class="dot" style="background: var(--bal)"></span>Balanced</span>
+      <span><span class="dot" style="background: var(--safe)"></span>Safest</span>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="panel feature">
+    <h2>1 · Pick a trip</h2>
+    <p>Choose where you start and where you're going from {{ n_places }} places across Mumbai.</p>
+  </div>
+  <div class="panel feature">
+    <h2>2 · Set your preference</h2>
+    <p>Slide between <b>only speed</b> and <b>only safety</b>, or use the Fastest, Balanced and Safest presets.</p>
+  </div>
+  <div class="panel feature">
+    <h2>3 · Compare routes</h2>
+    <p>See travel time, average safety and the worst road on each route, drawn side by side on a live map.</p>
+  </div>
+</section>
+
+<section class="panel how">
+  <h2>How it works</h2>
+  <div class="how-grid">
+    <div>
+      <p>Each road has a travel time in minutes and a safety score from 1 to 10. A long stretch of unsafe road
+        counts as riskier than a short one:</p>
+      <p class="formula">risk = time × (10 − safety)</p>
+    </div>
+    <div>
+      <p>Your preference <code>w</code> mixes the two (1 = fastest, 0 = safest), and Dijkstra's algorithm finds
+        the cheapest route:</p>
+      <p class="formula">cost = w · time + (1 − w) · risk</p>
+    </div>
+  </div>
+  <p class="note">Admins can update road safety scores, so the routes reflect current conditions.</p>
+</section>
+{% endblock %}

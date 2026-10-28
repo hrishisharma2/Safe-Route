@@ -43,12 +43,13 @@ def main():
     client = app.test_client()
     login = lambda u, p: client.post("/login", data={"username": u, "password": p})
 
-    check("logged-out visitors are sent to login", client.get("/").status_code == 302)
+    check("home page is public", client.get("/").status_code == 200)
+    check("logged-out visitors are sent to login", client.get("/plan").status_code == 302)
     check("API needs login", client.get("/api/map").status_code == 401)
     check("register a user", client.post("/register", data={"username": TEST_USER[0], "password": TEST_USER[1]}).status_code == 302)
     check("duplicate username rejected", b"already taken" in client.post("/register", data={"username": TEST_USER[0], "password": TEST_USER[1]}).data)
     check("wrong password rejected", b"Wrong username" in login(TEST_USER[0], "nope").data)
-    check("user login goes to route planner", login(*TEST_USER).headers["Location"] == "/")
+    check("user login goes to route planner", login(*TEST_USER).headers["Location"] == "/plan")
     check("user cannot open admin page", client.get("/admin").status_code == 403)
     check("user cannot change roads", client.put("/api/roads/1", json={"time": 5, "safety": 5}).status_code == 403)
 

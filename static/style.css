@@ -95,3 +95,32 @@ input[type=range] { accent-color: var(--accent); padding: 0; border: 0; backgrou
 .btn:disabled { opacity: 0.4; cursor: default; }
 .msg { font-size: 0.82rem; color: var(--muted); }
 .msg.err { color: var(--risk-hi); }
+
+/* Home page */
+.nav-links .btn.primary { color: #fff; padding: 6px 14px; }
+.nav-links .btn.primary:hover { text-decoration: none; background: var(--accent); filter: brightness(1.08); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; align-items: center; padding-block: 24px 8px; }
+@media (max-width: 900px) { .hero { grid-template-columns: minmax(0, 1fr); } }
+.hero-copy { display: grid; gap: 16px; }
+.hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.08; }
+.eyebrow { margin: 0; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+.lede { margin: 0; font-size: 1.05rem; color: var(--muted); max-width: 52ch; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.cta .btn { padding: 10px 18px; border-radius: 999px; font-size: 0.95rem; }
+.hero-stats { max-width: 420px; margin-top: 4px; }
+.hero-art svg { width: 100%; height: auto; display: block; }
+.r-road { fill: none; stroke: var(--road); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+.r-line { fill: none; stroke: var(--c); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.r-node circle { fill: var(--node); stroke: var(--muted); stroke-width: 2; }
+.r-end { fill: var(--accent); }
+.r-end-t { fill: #fff; font: 600 11px var(--f-display); text-anchor: middle; }
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .features { grid-template-columns: minmax(0, 1fr); } }
+.feature h2 { color: var(--accent); }
+.feature p, .how p { margin: 0; }
+.how { display: grid; gap: 12px; }
+.how h2 { margin: 0; }
+.how-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 760px) { .how-grid { grid-template-columns: minmax(0, 1fr); } }
+.formula { font: 500 0.95rem var(--f-mono); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin-top: 8px !important; }
+code { font-family: var(--f-mono); font-size: 0.9em; }

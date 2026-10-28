@@ -1,7 +1,7 @@
 """
 SafeRoute web server (Flask).
 
-Pages (HTML):          /login  /register  /logout  /  (user)  /admin
+Pages (HTML):          /  (public home)  /login  /register  /logout  /plan  (user)  /admin
 API (JSON for JS):     GET /api/map   GET /api/routes   PUT /api/roads/<id>   POST /api/roads/reset
 
 Start it with:  flask --app app run --debug
@@ -155,12 +155,19 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("login"))
+    return redirect(url_for("home"))
 
 
 # ---------------------------------------------------------------- pages
 
 @app.route("/")
+def home():
+    """Public landing page. Logged-in users see a shortcut to the planner."""
+    locations, roads = read_map()
+    return render_template("home.html", n_places=len(locations), n_roads=len(roads))
+
+
+@app.route("/plan")
 @login_required
 def index():
     return render_template("index.html")
