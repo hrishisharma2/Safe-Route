@@ -45,15 +45,22 @@ const SafeMap = (() => {
       const name = id => pretty(data.locations.find(l => l.id === id).name);
 
       const onRoute = new Set(opts.routeRoads || []);
-      for (const r of data.roads) {
-        if (onRoute.has(r.id)) {
-          L.polyline(r.shape, { color: cssColor(opts.routeColor), weight: 14, opacity: 0.45, interactive: false }).addTo(routeLayer);
+      const hasRoute = onRoute.size > 0;
+      // Draw route roads last so they sit on top of the faded roads around them.
+      const roads = [...data.roads].sort((a, b) => onRoute.has(a.id) - onRoute.has(b.id));
+      for (const r of roads) {
+        const active = onRoute.has(r.id);
+        if (active) {
+          // White outline + solid coloured band make the route stand out from the map.
+          L.polyline(r.shape, { color: "#fff", weight: 22, opacity: 0.95, interactive: false }).addTo(routeLayer);
+          L.polyline(r.shape, { color: cssColor(opts.routeColor), weight: 16, opacity: 0.85, interactive: false }).addTo(routeLayer);
         }
         const selected = r.id === opts.selectedRoad;
+        // While a route is shown, fade every other road so the route pops.
         L.polyline(r.shape, {
           color: selected ? cssColor("var(--ink)") : cssColor(safetyVar(r.safety)),
-          weight: selected ? 7 : 4,
-          opacity: 0.9,
+          weight: selected ? 7 : active ? 6 : hasRoute ? 3 : 4,
+          opacity: selected || active ? 1 : hasRoute ? 0.25 : 0.9,
         })
           .bindTooltip(`<b>${esc(r.name)}</b><br>${esc(name(r.from_id))} – ${esc(name(r.to_id))}<br>${r.km} km · ${r.time} min · safety ${r.safety}/10`, { sticky: true })
           .on("click", () => onRoad && onRoad(r.id))
